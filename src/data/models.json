@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "title": "磁力片（彩窗磁力片）经典造型搭建配方库",
+    "适用产品": "标准磁力片：正方形、等边三角形、直角三角形（等边三角形沿高对切的 30-60-90 直角三角：斜边=正方形边长）、可选五边形",
+    "数量校验说明": "所有 3D 闭合造型均用欧拉公式 V−E+F=2（凸多面体）核验；2D 造型按面积/边长拼接常识核验",
+    "信源": [
+      "Magna-Tiles 官方博客《MAGNA-TILES Building Ideas for Kids》(magnatiles.com/blogs/news/magna-tiles-building-ideas-kids)：House/Rainbow/Bridge/Stegosaurus/Velociraptor/Dog/Snail/Butterfly/Robot/Ball Run/Skyscraper 官方片数",
+      "Magna-Tiles 官方博客《3 MAGNA-TILES Building Ideas for Beginners》(magnatiles.com/blogs/news/magna-tiles-building-ideas)：Butterfly/Snail/Dog 官方片数",
+      "Brightsprouts《Magna Tiles Ideas: 17 Creative Builds》(brightsprouts.com/magna-tiles-ideas/)：火箭/城堡/房屋/火车等玩法形态参考",
+      "Panda Mommy Teacher《50 Ultimate Magnetic Tile Build Ideas》(pandamommyteacher.com)：≤60 片起步套装可拼的佐证",
+      "几何自洽性：本项目自带验算脚本 verify_geometry.js（欧拉公式核验）"
+    ],
+    "检索限制": "DuckDuckGo/Bing 中途限流、Adventure-in-a-Box/Tytan 有 Cloudflare 盾、小红书/抖音无法匿名抓取。 rocket/小鱼/风车/摩天轮/卡车等未获权威逐片配方，均如实标注「配方未验证」。"
+  },
+  "片型约定": {
+    "square": "正方形，边长 1 单位",
+    "equilateral_triangle": "等边三角形，边长 1 单位",
+    "right_triangle": "直角三角形（30-60-90，斜边 1 单位；2 片斜边对拼 = 1 个等边三角形）",
+    "pentagon": "正五边形（可选，部分套装含）"
+  },
+  "recipes": [
+    {
+      "id": "cube",
+      "name_zh": "立方体",
+      "name_en": "Cube",
+      "pieces": { "square": 6 },
+      "piece_check": "欧拉公式 V=8, E=12, F=6, V−E+F=2 ✅；磁力片最经典的入门 3D 造型，官方入门视频必教",
+      "steps": [
+        "平铺 4 块正方形拼成一条 1×4 的横排，每两块之间以侧边磁边相连",
+        "把横排首尾立起相连，围成一个无顶无底的空心正方形纸盒（4 面侧墙），接头处磁边吸合",
+        "在盒子顶部吸上第 5 块正方形作为顶盖，此时形如开口朝下的浅盒",
+        "整体翻转让开口朝上，把第 6 块正方形吸在开口处封底，完成封闭立方体",
+        "玩法提示：可向盒内投入小球摇晃听声，或拼 2×2×2 大立方体（24 正方形）进阶"
+      ],
+      "age": "3岁+",
+      "difficulty": "入门",
+      "source": "官方/通用经典（各品牌 idea booklet 均有）",
+      "verified": true
+    },
+    {
+      "id": "square_pyramid",
+      "name_zh": "四棱锥 / 金字塔",
+      "name_en": "Square Pyramid / Pyramid",
+      "pieces": { "square": 1, "equilateral_triangle": 4 },
+      "piece_check": "底边 4 条 = 4 个三角底边，全部对齐；V=5, E=8, F=5, V−E+F=2 ✅（等边三角侧面时为约翰逊二重三角形结构，可稳定站立）",
+      "steps": [
+        "桌面平铺 1 块正方形作为底座",
+        "在底座任意一条边外侧吸 1 块等边三角形，并把这块三角立起来与底面约成 70° 角",
+        "按同样方法在其余三条边各吸 1 块等边三角形并立起，4 块三角顶端向中心上方聚拢",
+        "把 4 块三角的顶部斜边两两磁吸合拢，4 个尖在正上方交汇，形成封闭四棱锥",
+        "玩法提示：拼 2 个可对合成八面体（octahedron）；用红色系统一颜色即'埃及金字塔'"
+      ],
+      "age": "3岁+",
+      "difficulty": "入门",
+      "source": "官方/通用经典",
+      "verified": true
+    },
+    {
+      "id": "house_3d",
+      "name_zh": "小房子",
+      "name_en": "House",
+      "pieces": { "square": 4, "equilateral_triangle": 4 },
+      "piece_check": "立方段（4 正方侧墙）上沿 4 条边各接 1 等边三角，汇聚封顶；组合体拓扑可展 ✅。官方另有一个 2D 立面图版本：6 squares + 2 equilateral triangles（与本项目 3D 版不同，已在 meta 注明）",
+      "steps": [
+        "用 4 块正方形首尾相连围成一圈，形成 1×1×1 的空心方筒（四面墙，上下开口）",
+        "在其中一面墙的方块上'开窗'：如果片库有带框/彩色窗款式，直接选用透明彩窗片当窗户",
+        "在方筒顶部四条上沿各吸 1 块等边三角形，向内上方立起",
+        "4 块三角形顶部斜边两两吸合于屋顶中心，形成金字塔尖顶，房子封闭完成",
+        "玩法提示：可以并排 2 个房间（8 正方墙）扩展成两居室，或在尖顶再吸 1 个小立方体当烟囱"
+      ],
+      "age": "3岁+",
+      "difficulty": "入门",
+      "source": "项目已实现 + 官方 House 造型（官方为 2D 立面版本）",
+      "verified": true
+    },
+    {
+      "id": "tetrahedron",
+      "name_zh": "三角锥 / 帐篷",
+      "name_en": "Tetrahedron / Tent",
+      "pieces": { "equilateral_triangle": 4 },
+      "piece_check": "正四面体 V=4, E=6, F=4, V−E+F=2 ✅",
+      "steps": [
+        "平铺 3 块等边三角形拼成一个大三角形（3 倍面积），边边磁吸",
+        "把左右两块沿公共边向内上方折立，第三块作为底面留在桌面",
+        "三条侧棱顶端两两吸合于最高点，形成尖顶帐篷状正四面体",
+        "玩法提示：作为'露营帐篷'加入小人偶情景游戏"
+      ],
+      "age": "3岁+",
+      "difficulty": "入门",
+      "source": "通用经典几何造型",
+      "verified": true
+    },
+    {
+      "id": "rocket",
+      "name_zh": "火箭",
+      "name_en": "Rocket Ship",
+      "pieces": { "square": 6, "equilateral_triangle": 4, "right_triangle": 4 },
+      "piece_check": "配方未验证——Brightsprouts 与多源教程均确认火箭是高频造型（'side wings, fuel thrusters'），但无逐片清单。此片数为常见玩法图示的典型构成（四棱锥头+方筒身+直角三角尾翼），几何上可拼但片数非官方口径",
+      "steps": [
+        "4 块正方形围成方筒作为箭体（同小房子的墙体步骤）",
+        "方筒顶部 4 边各吸 1 块等边三角形并向中心上方合拢成尖头（同金字塔封顶手法）",
+        "箭体下部四面各吸 1 块直角三角形，斜边贴箭体、直角边朝外下方张开成尾翼",
+        "底部开口即喷射口；可选在正前方多吸 1 块正方形作舱门",
+        "玩法提示：倒计时发射情景游戏；高版本可用大三角做更大箭头"
+      ],
+      "age": "4岁+",
+      "difficulty": "简单",
+      "source": "Brightsprouts #2 + 电商造型图，逐片配方未验证",
+      "verified": false,
+      "note": "配方未验证（片数为常见玩法口径，非官方清单）"
+    },
+    {
+      "id": "butterfly",
+      "name_zh": "蝴蝶（2D 平面拼图）",
+      "name_en": "Butterfly",
+      "pieces": { "square": 12, "equilateral_triangle": 10 },
+      "piece_check": "与 Magna-Tiles 官方博客完全一致——官方给的是 12 squares + 6 equilateral + 2 right（22 片），另一官方页给 12 squares + 10 equilateral（22 片）。两版均为 2D 立面拼图，此处采用等边三角版（片型更通用，不需要直角三角）",
+      "steps": [
+        "身体：竖直方向排 2 块正方形上下相接，作为虫体",
+        "头部：身体顶端吸 1 块等边三角形（尖朝上）作为头部",
+        "上翅：身体左右两侧各横向并排吸 3 块正方形，形成宽大的上翅",
+        "下翅：上翅下沿各再斜向接 1 块等边三角形 + 2 块正方形收窄翅尾，左右对称",
+        "触角：头顶两侧各斜吸 1 块小等边三角形（或省略用别物替代）",
+        "玩法提示：全程在桌面/墙面平面拼贴，左右对称是核心学习点"
+      ],
+      "age": "3岁+",
+      "difficulty": "简单",
+      "source": "Magna-Tiles 官方博客（官方片数：12 squares + 10 equilateral triangles）",
+      "verified": true
+    },
+    {
+      "id": "rainbow_ball_octahedron",
+      "name_zh": "彩虹球（正八面体）",
+      "name_en": "Rainbow Ball / Octahedron",
+      "pieces": { "equilateral_triangle": 8 },
+      "piece_check": "正八面体 V=6, E=12, F=8, V−E+F=2 ✅。市售'彩虹球'亦常见 4 三角开放半球（碗状）变体，未获权威逐片配方，推荐以 8 三角全八面体为准",
+      "steps": [
+        "先拼 2 个四棱锥：各用 4 块等边三角形，侧棱吸合成双金字塔（无底面）",
+        "把第一个四棱锥尖朝上放置",
+        "把第二个四棱锥倒转（尖朝下）对准第一个的底部开口，从上方扣合",
+        "两个金字塔底部的 4 条边分别与对方磁吸，合拢成一个两端皆尖的八面体'彩虹球'",
+        "玩法提示：8 片按彩虹色序各用一色即得七彩球；可悬挂或滚动作球玩"
+      ],
+      "age": "4岁+",
+      "difficulty": "简单",
+      "source": "几何标准造型 + 市售'彩虹球'玩法（半正八面体开放变体配方未验证）",
+      "verified": true
+    },
+    {
+      "id": "fence",
+      "name_zh": "栅栏 / 围墙",
+      "name_en": "Fence / Enclosure",
+      "pieces": { "square": 8, "equilateral_triangle": 4 },
+      "piece_check": "2D/立式开放结构，无闭合曲面要求，数量为最小示例（8 片正方形立边 + 4 三角尖饰），可任意延展。农场围栏玩法为 Brightsprouts #10（Barn for Farmyard Play）确认",
+      "steps": [
+        "在桌面上把 2 块正方形底边对底边垂直立起（借磁力 L 形立住），作为第一段栏板",
+        "继续首尾相接立起正方形，拼到需要的围合长度（示例 8 块围一圈留一个 2 格宽的门口）",
+        "门口两侧的墙柱顶部各吸 1 块等边三角形作为门柱尖饰",
+        "在部分栏板顶部每隔一块吸 1 块等边三角形，形成城堡式锯齿围栏",
+        "玩法提示：围出农场/动物园，放入玩偶小动物做情景游戏"
+      ],
+      "age": "2岁+",
+      "difficulty": "入门",
+      "source": "Brightsprouts #10 Barn/Farmyard Play，逐片配方未验证",
+      "verified": false,
+      "note": "玩法形态已验证，逐片数量为最小示例口径"
+    },
+    {
+      "id": "pinwheel",
+      "name_zh": "风车 / 转转轮",
+      "name_en": "Pinwheel / Windmill",
+      "pieces": { "square": 4, "equilateral_triangle": 4 },
+      "piece_check": "配方未验证——'风车/摩天轮'在市售教程中均为照片形态展示（Magna-Tiles 官方 11 个官方造型中不含），无统一逐片清单。此处给出几何可拼的 2D 风车叶轮示例：4 组（1 正方+1 等边三角）绕中心旋置",
+      "steps": [
+        "取 1 块正方形平放作中心",
+        "在正方形的每条边外侧各吸 1 块等边三角形，尖端一律顺时针朝向同一旋转方向",
+        "4 片三角依次磁吸相连后整体呈风车/螺旋桨状",
+        "玩法提示：可贴冰箱/白板竖立展示；进阶把每片三角外端再吸 1 块正方形加大叶轮"
+      ],
+      "age": "3岁+",
+      "difficulty": "简单",
+      "source": "常见 2D 拼法示例，配方未验证（无权威逐片来源）",
+      "verified": false,
+      "note": "配方未验证"
+    },
+    {
+      "id": "ferris_wheel",
+      "name_zh": "摩天轮",
+      "name_en": "Ferris Wheel",
+      "pieces": { "square": 12, "equilateral_triangle": 8 },
+      "piece_check": "配方未验证——多源确认摩天轮是热门进阶造型，但各教程均为立体照片，无公开逐片清单。示例片数为常见教程量级（立式大轮：4 组正方十字辐条 + 三角外圈 + 方形支架），仅供 3D 建模参考",
+      "steps": [
+        "拼 4 个小正方形塔节（每节 2 块正方形对折成 L）作为轮辐，两两正交排列呈十字",
+        "用 8 块等边三角形沿外圈把 4 组辐条外端依次连接，围成八边形大轮圈",
+        "用余下正方形在轮圈下方搭 A 字形底座支架，两侧各一个三角撑",
+        "把轮圈立起靠在支架上，整体立式摆放",
+        "玩法提示：真实摩天轮需转轴结构，磁力片版本为静态立式造型，适合进阶挑战"
+      ],
+      "age": "6岁+",
+      "difficulty": "进阶",
+      "source": "市售教程照片形态，配方未验证",
+      "verified": false,
+      "note": "配方未验证（片数仅为量级示意，不建议作为精确教程）"
+    },
+    {
+      "id": "truck",
+      "name_zh": "小卡车",
+      "name_en": "Truck / Car",
+      "pieces": { "square": 6, "equilateral_triangle": 2, "right_triangle": 2 },
+      "piece_check": "配方未验证——Panda Mommy Teacher / Brightsprouts 均确认车辆是磁力片最热门玩法之一（且有专门 Car Ramps 电子书品类），但公开渠道无逐片清单。示例为 3D 车厢+2D 车轮贴面的常见口径",
+      "steps": [
+        "用 4 块正方形围成方筒作车斗（同小房子墙体手法，底部留空）",
+        "车头端面吸 1 块正方形封闭，顶部前后向再平吸 1 块正方形作引擎盖斜面",
+        "车头下沿两侧各吸 1 块直角三角形作车头斜面导流",
+        "车轮：在车斗两侧外立面各吸 2 块等边三角形（尖朝下）示意车轮，或用 2D 圆形贴纸装饰",
+        "玩法提示：可在车内放小球，推移小车运货；进阶版车厢做翻斗（后板可开合）"
+      ],
+      "age": "4岁+",
+      "difficulty": "简单",
+      "source": "Brightsprouts #7 Train + Panda Mommy Teacher 车辆品类佐证，配方未验证",
+      "verified": false,
+      "note": "配方未验证"
+    },
+    {
+      "id": "rainbow_arch",
+      "name_zh": "彩虹拱门",
+      "name_en": "Rainbow",
+      "pieces": { "square": 15, "equilateral_triangle": 6 },
+      "piece_check": "与 Magna-Tiles 官方博客完全一致（官方：15 squares + 6 equilateral triangles，Easy）",
+      "steps": [
+        "两端桥墩：左右各竖立 3 块正方形（上下相接成 1×3 竖列）",
+        "从左桥墩顶端开始，向上向外逐块吸正方形，每块与前一块错开半格角度，形成上升弧线",
+        "弧线到达最高点后向右下方对称折返，逐块下降接到右桥墩顶端",
+        "在拱顶外沿吸 6 块等边三角形（每边 3 块）作为彩虹外圈装饰",
+        "玩法提示：按红橙黄绿蓝紫顺序用色，桥下可开小车通过"
+      ],
+      "age": "3岁+",
+      "difficulty": "简单",
+      "source": "Magna-Tiles 官方博客 Build 02 Rainbow（官方片数）",
+      "verified": true
+    }
+  ]
+}

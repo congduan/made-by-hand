@@ -147,3 +147,11 @@ select {
     padding: 6px 9px;
   }
 }
+#tutbox { width: min(350px,calc(100vw - 20px)); max-height: calc(100vh - 185px); overflow:auto; }
+#tutbox .badge { color:#b5c8ff; font-size:11px; margin-left:5px; }
+#tutbox .warn { color:#ffb67a; font-size:12px; margin-top:7px; }
+#tutbox .step-number { margin-top:10px; font-weight:700; }
+#tutbox .tutorial-actions {display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+#tutbox .source {font-size:11px;color:#9baad6;margin-top:7px;}
+#demo-progress {width:100%;margin-top:10px;accent-color:#87b8ff;}
+button:disabled { opacity:.4; cursor:default; }

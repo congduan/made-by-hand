@@ -4,6 +4,7 @@ import { useGameStore } from '../stores/game'
 import { usePhysics } from '../composables/usePhysics'
 import { CraftScene } from '../engine/craftScene'
 import type { PieceType } from '../types/game'
+import type { ModelRecipe } from '../data/models'
 
 const root = ref<HTMLDivElement>()
 const store = useGameStore()
@@ -12,6 +13,8 @@ let craft: CraftScene | undefined
 const sync = () => {
   if (craft) store.setCounts(craft.physics.pieces.map((p) => p.type))
 }
+function loadModel(recipe: ModelRecipe, step: number) { craft?.loadModel(recipe,step); sync() }
+function getStability() { return craft?.getStability() ?? Infinity }
 function spawn(type: PieceType) {
   craft?.physics.spawn(type)
   sync()
@@ -24,7 +27,7 @@ function demo() {
   craft?.physics.buildHouse()
   sync()
 }
-defineExpose({ spawn, clear, demo })
+defineExpose({ spawn, clear, demo, loadModel, getStability })
 onMounted(() => {
   craft = new CraftScene(root.value!, physicsLifecycle.mount, sync)
   sync()

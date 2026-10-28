@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { useCamera } from '../composables/useCamera'
 import type { Piece } from './magnets/pieces'
 import type { MagnetWorld } from './magnets/world'
+import type { ModelRecipe } from '../data/models'
 
 export class CraftScene {
   readonly scene = new THREE.Scene()
@@ -73,6 +74,7 @@ export class CraftScene {
     const tick = (time: number) => {
       this.physics.step(this.last ? (time - this.last) / 1000 : 0)
       this.last = time
+      this.physics.pulseHighlight(time)
       this.renderer.render(this.scene, this.camera)
       this.frame = requestAnimationFrame(tick)
     }
@@ -157,7 +159,9 @@ export class CraftScene {
       __align?: () => unknown
       __alignState?: () => unknown
       __alignProbe?: () => unknown
+      __model?: () => unknown
     }
+    w.__model = () => ({ stability: this.getStability(), pieces: this.physics.pieces.filter(p=>p.demo).length })
     w.__dbg = () => ({
       n: this.physics.pieces.length,
       constraints: this.physics.world.constraints.length,
@@ -232,13 +236,19 @@ export class CraftScene {
       }
     }
     this.cleanupDebug = () => {
+      delete w.__model
       delete w.__dbg
+      delete w.__model
       delete w.__dbgRaw
       delete w.__align
       delete w.__alignState
       delete w.__alignProbe
     }
   }
+
+  loadModel(recipe: ModelRecipe, uptoStep: number) { this.physics.loadModel(recipe, uptoStep) }
+  clearModel() { this.physics.clearModel() }
+  getStability() { return this.physics.getStability() }
 
   dispose() {
     cancelAnimationFrame(this.frame)

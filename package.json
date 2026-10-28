@@ -23,6 +23,7 @@
     "@types/three": "^0.186.0",
     "@vitejs/plugin-vue": "^6.0.10",
     "prettier": "^3.9.10",
+    "puppeteer": "^25.16.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.7",
     "vue-tsc": "^3.3.13"

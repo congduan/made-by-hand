@@ -78,7 +78,6 @@ export class Magnetics {
           b = pieces[j]
         if (
           this.isLocked(a, b) ||
-          (a.demo && b.demo) ||
           (a.body.sleepState === CANNON.Body.SLEEPING &&
             b.body.sleepState === CANNON.Body.SLEEPING)
         )

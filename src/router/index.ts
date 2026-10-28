@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import CraftView from '../views/CraftView.vue'
 import PlaceholderView from '../views/PlaceholderView.vue'
 export default createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: CraftView },
     { path: '/origami', component: PlaceholderView, props: { name: '折纸' } },

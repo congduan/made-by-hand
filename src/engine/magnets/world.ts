@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import type { PieceType } from '../../types/game'
 import { createPiece, disposePiece, SIZE, type Piece } from './pieces'
 import { Magnetics } from './magnetics'
+import type { ModelRecipe } from '../../data/models'
 export const GRAVITY = -981
 const FIXED = 1 / 120
 export class MagnetWorld {
@@ -117,6 +118,45 @@ export class MagnetWorld {
     }
     for (let i = 0; i < 4; i++)
       this.magnetics.lock(roofs[i], roofs[(i + 1) % 4])
+  }
+  private modelId = ''
+  private loadedStep = -1
+  private highlighted: Piece[] = []
+  clearModel() {
+    this.clear()
+    this.modelId = ''
+    this.loadedStep = -1
+    this.highlighted = []
+  }
+  loadModel(recipe: ModelRecipe, uptoStep: number) {
+    const target = Math.max(0, Math.min(uptoStep, recipe.steps.length - 1))
+    if (this.modelId !== recipe.id || target < this.loadedStep) {
+      this.clearModel()
+      this.modelId = recipe.id
+    }
+    if (target === this.loadedStep) return
+    for (let i = this.loadedStep + 1; i <= target; i++) {
+      const added: Piece[] = []
+      for (const data of recipe.steps[i].pieces) {
+        const q = new CANNON.Quaternion()
+        q.setFromEuler(...data.rot, 'XYZ')
+        const [x,y,z] = data.pos
+        added.push(this.add(data.type, new CANNON.Vec3(x,y,z), q, true, !!recipe.unstable))
+      }
+      this.highlighted = added
+    }
+    this.loadedStep = target
+  }
+  getStability() {
+    return Math.max(0, ...this.pieces.filter(p => p.demo).map(p => p.body.velocity.length()))
+  }
+  pulseHighlight(time: number) {
+    const intensity = 0.15 + 0.25 * (1 + Math.sin(time / 280))
+    for (const p of this.pieces) {
+      const m = p.mesh.material as THREE.MeshStandardMaterial
+      m.emissive.setHex(this.highlighted.includes(p) ? 0xffcc55 : 0x000000)
+      m.emissiveIntensity = this.highlighted.includes(p) ? intensity : 0
+    }
   }
   setupAlignment() {
     this.clear()

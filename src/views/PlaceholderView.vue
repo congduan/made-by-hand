@@ -4,7 +4,7 @@ import { watchEffect } from 'vue'
 const props = defineProps<{ name: string }>()
 const store = useGameStore()
 watchEffect(() => {
-  store.mode = props.name === '折纸' ? 'origami' : 'papercraft'
+  store.craftMode = props.name === '折纸' ? 'origami' : 'papercraft'
 })
 </script>
 <template>
