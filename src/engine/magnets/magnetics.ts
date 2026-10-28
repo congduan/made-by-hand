@@ -8,7 +8,7 @@ export const D0 = 0.6
 export const SNAP_RANGE = 3.2
 export const LOCK_K = 180
 const COS_FACE = Math.cos((20 * Math.PI) / 180)
-const SIN_PERP = Math.sin((20 * Math.PI) / 180)
+const SIN_PERP = Math.sin((32 * Math.PI) / 180)
 const bars = new Map<string, CANNON.Vec3[][]>()
 const normals = new Map<string, CANNON.Vec3[]>()
 function edgeNormals(type: Piece['type']) {
@@ -110,7 +110,7 @@ export class Magnetics {
                 const d2 = dx * dx + dy * dy + dz * dz
                 if (d2 > SNAP_RANGE * SNAP_RANGE || d2 < 1e-16) continue // d < 1e-8: no direction
                 const d = Math.sqrt(d2),
-                  f = F0 * (D0 / d) ** 2
+                  f = Math.min(300, F0 * (D0 / d) ** 2)
                 const force = new CANNON.Vec3(
                   (dx / d) * f,
                   (dy / d) * f,
@@ -129,7 +129,7 @@ export class Magnetics {
           if (b.body.mass > 0 && b.body.sleepState === CANNON.Body.SLEEPING)
             b.body.wakeUp()
         }
-        if (near > F0 * LOCK_K) {
+        if (near > F0 * (a.demo && b.demo ? 80 : LOCK_K)) {
           const nA = a.body.quaternion.vmult(new CANNON.Vec3(0, 0, 1)),
             nB = b.body.quaternion.vmult(new CANNON.Vec3(0, 0, 1))
           const dn = Math.abs(nA.dot(nB))

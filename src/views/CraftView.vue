@@ -19,7 +19,7 @@ watch(() => [store.currentRecipe?.id,store.stepIndex], () => {
 onMounted(() => { timer=setInterval(() => {
   const recipe=store.currentRecipe
   if (!recipe || !store.playing || store.mode!=='auto') return
-  if (performance.now()-started < 350) return
+  if (performance.now()-started < (store.stepIndex===recipe.steps.length-1 ? 2900 : 350)) return
   if (scene.value?.getStability()! < 5 || performance.now()-started >= 3000) {
     if (store.stepIndex < recipe.steps.length-1) store.stepIndex++
     else store.playing=false

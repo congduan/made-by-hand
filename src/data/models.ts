@@ -52,10 +52,7 @@ const normal = top.clone().sub(oct[0]).cross(oct[1].clone().sub(oct[0])).normali
 const turn = new THREE.Quaternion().setFromUnitVectors(normal,new THREE.Vector3(0,-1,0))
 const ov = (p:THREE.Vector3) => p.clone().sub(v(0,H,0)).applyQuaternion(turn).add(v(0,S/Math.SQRT2+T,0))
 specs.rainbow_ball_octahedron = [
- [face(ov(top),ov(oct[0]),ov(oct[1]))],
- [face(ov(top),ov(oct[1]),ov(oct[2])),face(ov(top),ov(oct[2]),ov(oct[3])),face(ov(top),ov(oct[3]),ov(oct[0]))],
- [0,1].map(i=>face(ov(bottom),ov(oct[i+1]),ov(oct[i]))),
- [2,3].map(i=>face(ov(bottom),ov(oct[(i+1)%4]),ov(oct[i])))
+ [...[0,1,2,3].map(i=>face(ov(top),ov(oct[i]),ov(oct[(i+1)%4]))), ...[0,1,2,3].map(i=>face(ov(bottom),ov(oct[(i+1)%4]),ov(oct[i])))]
 ]
 const difficulty = (s:string): 1|2|3 => s==='入门'?1:s==='进阶'?3:2
 export const models: ModelRecipe[] = source.recipes.map(raw => {

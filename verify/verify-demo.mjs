@@ -14,7 +14,7 @@ await withPage(async (page,errors)=>{
   check('立方体分步累计片数',JSON.stringify(counts)===JSON.stringify([1,3,5,6]),JSON.stringify(counts))
   const cube=(await state(page)).pieces.filter(p=>p.demo)
   check('立方体最终六正方',cube.length===6&&cube.every(p=>p.t==='square'),JSON.stringify(cube.map(p=>p.t)))
-  for(const id of verified){
+  for(const id of verified.filter(id=>!process.env.MODELS || process.env.MODELS.split(',').includes(id))){
     await choose(page,id)
     await page.click('#auto-toggle')
     let completed=true
@@ -23,6 +23,7 @@ await withPage(async (page,errors)=>{
     await delay(8000)
     const b=await state(page), pb=positions(b)
     const d=pa.length===pb.length?drift(pa,pb):Infinity
+    if (id==='rainbow_ball_octahedron') console.log('oct states',JSON.stringify({a:a.pieces.filter(p=>p.demo),b:b.pieces.filter(p=>p.demo),constraints:b.constraints}))
     const speed=await page.evaluate(()=>window.__model().stability)
     check(`${id} 连续演示`,completed&&pa.length===expected[id]&&d<0.5,`完成=${completed} 片数=${pa.length}/${expected[id]} 8s位移=${d.toFixed(3)}cm 最大片速=${speed.toFixed(3)}cm/s`)
   }
