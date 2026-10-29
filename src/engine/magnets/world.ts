@@ -196,6 +196,21 @@ export class MagnetWorld {
         if (v > 200) p.body.velocity.scale(200 / v, p.body.velocity)
       }
       this.world.step(FIXED)
+      // 桌面锚定：演示结构等效"放在桌上+手扶"，抑制整体水平滑移；片间磁吸/锁定/重力/碰撞不受影响
+      const demoPieces = this.pieces.filter((p) => p.demo)
+      if (demoPieces.length > 1) {
+        let cx = 0, cz = 0, mvx = 0, mvz = 0
+        for (const p of demoPieces) { cx += p.body.position.x; cz += p.body.position.z; mvx += p.body.velocity.x; mvz += p.body.velocity.z }
+        cx /= demoPieces.length; cz /= demoPieces.length; mvx /= demoPieces.length; mvz /= demoPieces.length
+        const hSpeed = Math.hypot(mvx, mvz)
+        if (hSpeed > 0.5) {
+          for (const p of demoPieces) {
+            p.body.velocity.x -= mvx * 0.3
+            p.body.velocity.z -= mvz * 0.3
+            p.body.angularVelocity.scale(0.6, p.body.angularVelocity)
+          }
+        }
+      }
       this.accumulator -= FIXED
     }
     for (const p of this.pieces) {

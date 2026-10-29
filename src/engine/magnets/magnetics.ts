@@ -3,10 +3,12 @@ import type { Piece } from './pieces'
 import { outline } from './pieces'
 export const SAMPLE_COUNT = 9
 export const BAR_LENGTH_RATIO = 0.7
-export const F0 = 10
+// 吸力标定：贴合间距(d≈D0)时单边条对条合力 ≈ 3×片重(0.12×981≈118)，保证"拿起一片能带起整串"的真磁铁手感
+export const F0 = 130
 export const D0 = 0.6
 export const SNAP_RANGE = 3.2
-export const LOCK_K = 180
+export const PER_POINT_CAP = 600
+export const LOCK_K = 1.6 // near > 1.6×F0 ≈ 单边条对八成贴合即咬合（磁条对齐即锁，符合真磁力片"咔哒"）
 const COS_FACE = Math.cos((20 * Math.PI) / 180)
 const SIN_PERP = Math.sin((32 * Math.PI) / 180)
 const bars = new Map<string, CANNON.Vec3[][]>()
@@ -59,6 +61,10 @@ export class Magnetics {
   isLocked(a: Piece, b: Piece) {
     return this.locks.has(this.key(a, b))
   }
+  hasAnyLock(p: Piece) {
+    for (const k of this.locks) if (k.split('_').includes(String(p.body.id))) return true
+    return false
+  }
   lock(a: Piece, b: Piece) {
     const key = this.key(a, b)
     if (this.locks.has(key)) return
@@ -76,6 +82,8 @@ export class Magnetics {
       for (let j = i + 1; j < pieces.length; j++) {
         const a = pieces[i],
           b = pieces[j]
+        // 演示结构只与演示结构互吸，避免初始撒落片把模型拖散
+        if (a.demo !== b.demo) continue
         if (
           this.isLocked(a, b) ||
           (a.body.sleepState === CANNON.Body.SLEEPING &&
@@ -90,16 +98,19 @@ export class Magnetics {
           nb = edgeNormals(b.type)
         const pa = new CANNON.Vec3(),
           pb = new CANNON.Vec3()
+        const BAR_LEN = 7.5 * 0.7
         for (let ia = 0; ia < aa.length; ia++)
           for (let ib = 0; ib < bb.length; ib++) {
             const edgeA = aa[ia],
               edgeB = bb[ib]
             const normalA = a.body.quaternion.vmult(na[ia]),
               normalB = b.body.quaternion.vmult(nb[ib])
-            if (normalA.dot(normalB) > -0.5) continue
+            // |dot|>0.5：共面同向拼接(dot≈+1)与面对背对贴(dot≈-1)都吸；垂直(≈0)不吸
+            if (Math.abs(normalA.dot(normalB)) < 0.5) continue
             a.body.pointToWorldFrame(edgeA[4], pa)
             b.body.pointToWorldFrame(edgeB[4], pb)
-            if (pa.distanceTo(pb) > SNAP_RANGE + 5.5) continue
+            // 粗筛：条中心距 < 磁程+条长（条端点参与吸附，不能用单点筛）
+            if (pa.distanceTo(pb) > SNAP_RANGE + BAR_LEN) continue
             for (const localA of edgeA)
               for (const localB of edgeB) {
                 a.body.pointToWorldFrame(localA, pa)
@@ -110,7 +121,7 @@ export class Magnetics {
                 const d2 = dx * dx + dy * dy + dz * dz
                 if (d2 > SNAP_RANGE * SNAP_RANGE || d2 < 1e-16) continue // d < 1e-8: no direction
                 const d = Math.sqrt(d2),
-                  f = Math.min(300, F0 * (D0 / d) ** 2)
+                  f = Math.min(PER_POINT_CAP, F0 * (D0 / d) ** 2)
                 const force = new CANNON.Vec3(
                   (dx / d) * f,
                   (dy / d) * f,
@@ -124,17 +135,18 @@ export class Magnetics {
               }
           }
         if (near > F0 * 10) {
-          if (a.body.mass > 0 && a.body.sleepState === CANNON.Body.SLEEPING)
+          // 只有完全自由(无任何锁定)的片才被磁力唤醒，已入结构的片保持休眠，避免锁定后残余磁力造成永久蠕动
+          if (a.body.mass > 0 && a.body.sleepState === CANNON.Body.SLEEPING && !this.hasAnyLock(a))
             a.body.wakeUp()
-          if (b.body.mass > 0 && b.body.sleepState === CANNON.Body.SLEEPING)
+          if (b.body.mass > 0 && b.body.sleepState === CANNON.Body.SLEEPING && !this.hasAnyLock(b))
             b.body.wakeUp()
         }
-        if (near > F0 * (a.demo && b.demo ? 80 : LOCK_K)) {
+        if (near > F0 * (a.demo && b.demo ? 2.2 : LOCK_K)) {
           const nA = a.body.quaternion.vmult(new CANNON.Vec3(0, 0, 1)),
             nB = b.body.quaternion.vmult(new CANNON.Vec3(0, 0, 1))
           const dn = Math.abs(nA.dot(nB))
           const relativeSpeed = a.body.velocity.vsub(b.body.velocity).length()
-          if ((dn > COS_FACE || dn < SIN_PERP) && relativeSpeed < 60)
+          if ((dn > COS_FACE || dn < SIN_PERP) && relativeSpeed < 80)
             this.lock(a, b)
         }
       }

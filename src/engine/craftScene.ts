@@ -161,7 +161,7 @@ export class CraftScene {
       __alignProbe?: () => unknown
       __model?: () => unknown
     }
-    w.__model = () => ({ stability: this.getStability(), pieces: this.physics.pieces.filter(p=>p.demo).length })
+    w.__model = () => ({ stability: this.getStability(), pieces: this.physics.pieces.filter(p=>p.demo).length, constraints: this.physics.world.constraints.length })
     w.__dbg = () => ({
       n: this.physics.pieces.length,
       constraints: this.physics.world.constraints.length,

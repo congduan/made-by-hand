@@ -118,13 +118,13 @@ export function createPiece(
     shape: physicsShape(type),
     material,
     allowSleep: true,
-    sleepSpeedLimit: 0.6,
-    sleepTimeLimit: 0.6,
+    sleepSpeedLimit: 1.2,
+    sleepTimeLimit: 0.4,
   })
   body.position.copy(position)
   body.quaternion.copy(quaternion)
-  body.linearDamping = 0.25
-  body.angularDamping = 0.45
+  body.linearDamping = 0.4
+  body.angularDamping = 0.6
   mesh.position.copy(position)
   mesh.quaternion.copy(quaternion)
   return { type, mesh, body, demo }

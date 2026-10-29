@@ -33,9 +33,9 @@ function pyramidFaces(baseY = 0): StepPiece[] {
 }
 const specs: Record<string, StepPiece[][]> = {
  cube: [[square(0,0)],[wall(0),wall(1)],[wall(2),wall(3)],[piece('square',0,S+T,0)]],
- square_pyramid: [[square(0,0)],[roof(0,0)],[roof(1,0)],[roof(2,0),roof(3,0)]],
+ square_pyramid: [[square(0,0)],[roof(0,0)],[roof(2,0)],[roof(1,0)],[roof(3,0)]],
  house_3d: [[wall(0),wall(1)],[wall(2),wall(3)],[roof(0),roof(1)],[roof(2),roof(3)]],
- tetrahedron: [[pyramidFaces()[0]],[pyramidFaces()[1]],[pyramidFaces()[2],pyramidFaces()[3]]],
+ tetrahedron: [[pyramidFaces()[0]],[pyramidFaces()[1]],[pyramidFaces()[2]],[pyramidFaces()[3]]],
  rocket: [[...Array.from({length:4},(_,i)=>wall(i))],[...Array.from({length:4},(_,i)=>roof(i))],[...Array.from({length:4},(_,i)=>piece('triangle_right',Math.sin(i*Math.PI/2)*S,H/2,Math.cos(i*Math.PI/2)*S,[0,i*Math.PI/2,0]))],[square(0,2*S),square(0,-S)]],
  butterfly: [[square(0,0),square(0,S)],[tri(0,2*S)],[...[-3,-2,-1,1,2,3].map(i=>square(i*S,S))],[...[-4,-3,3,4].map(i=>square(i*S,0)),...[-4,-3,3,4].map(i=>tri(i*S,-S))],[...[-1,1].map(i=>tri(i*S,3*S)),...[-2,2,0].map(i=>tri(i*S,-2*S))]],
  rainbow_ball_octahedron: [],
@@ -58,6 +58,7 @@ const difficulty = (s:string): 1|2|3 => s==='入门'?1:s==='进阶'?3:2
 export const models: ModelRecipe[] = source.recipes.map(raw => {
  const groups = specs[raw.id]
  const hints = raw.steps.filter(s=>!s.startsWith('玩法提示'))
- return { id:raw.id,nameZh:raw.name_zh,nameEn:raw.name_en,difficulty:difficulty(raw.difficulty),age:raw.age,verified:raw.verified,source:raw.source,note:'note' in raw ? raw.note : undefined,unstable:!raw.verified && !['fence','pinwheel'].includes(raw.id),steps:groups.map((pieces,i)=>({hint:hints[Math.min(i,hints.length-1)],pieces})) }
+ const PHYSICALLY_HARD = ['tetrahedron','square_pyramid','rainbow_ball_octahedron'] // 斜面合拢型：合拢冲击致物理演示不稳定，降级静力学分步
+ return { id:raw.id,nameZh:raw.name_zh,nameEn:raw.name_en,difficulty:difficulty(raw.difficulty),age:raw.age,verified:raw.verified,source:raw.source,note:'note' in raw ? raw.note : undefined,unstable:(!raw.verified && !['fence','pinwheel'].includes(raw.id)) || PHYSICALLY_HARD.includes(raw.id),steps:groups.map((pieces,i)=>({hint:hints[Math.min(i,hints.length-1)],pieces})) }
 })
 export const getModel = (id:string) => models.find(m=>m.id===id)
